@@ -96,6 +96,3 @@ RUN set -x\
  && mkdir /.ssh
 
 VOLUME ["/.config"]
-
-ENTRYPOINT ["gcloud"]
-CMD ["-h"]

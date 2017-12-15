@@ -1,4 +1,18 @@
 FROM alpine:3.6
+           
+# Build-time metadata as defined at http://label-schema.org
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="alpine-gcloud-sdk" \
+      org.label-schema.description="gcloud SDK Image based on Alpine distro" \
+      org.label-schema.url="https://www.254bit.com/" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/kigen/alpine-gcloud-sdk" \
+      org.label-schema.vendor="254Bit" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="0.1.0"
 
 ############ JAVA 8 #############################
 

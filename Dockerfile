@@ -67,6 +67,13 @@ RUN set -x\
   #&& apk --no-cache add --virtual .build-deps\
   py2-openssl\
   python2\
+  postgresql-libs\
+  py-pip\
+  gcc\
+  python-dev\
+  musl-dev\
+  postgresql-dev\
+  curl\
  && wget https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip\
  && unzip google-cloud-sdk.zip\
  && rm google-cloud-sdk.zip\

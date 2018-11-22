@@ -73,6 +73,7 @@ RUN set -x\
   python-dev\
   musl-dev\
   postgresql-dev\
+  make\
   curl\
  && wget https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip\
  && unzip google-cloud-sdk.zip\
@@ -96,6 +97,7 @@ RUN set -x\
    gsutil\
    kubectl\
    pubsub-emulator\
+ && pip install azure-cli \
  && apk del .build-deps\
  && rm -rf /var/cache/apk/*\
  && google-cloud-sdk/bin/gcloud config set --installation component_manager/disable_update_check true\

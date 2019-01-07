@@ -75,6 +75,7 @@ RUN set -x\
   postgresql-dev\
   make\
   curl\
+ && update-ca-certificates\  
  && wget https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip\
  && unzip google-cloud-sdk.zip\
  && rm google-cloud-sdk.zip\

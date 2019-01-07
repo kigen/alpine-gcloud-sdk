@@ -54,6 +54,7 @@ RUN set -x\
   ca-certificates\
   unzip\
   wget\
+  openssl\
  && apk --no-cache add\
   bash\
   openssh-client\

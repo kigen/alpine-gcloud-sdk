@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.16.2
            
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
@@ -21,23 +21,9 @@ ENV LANG C.UTF-8
 
 # add a simple script that can auto-detect the appropriate JAVA_HOME value
 # based on whether the JDK or only the JRE is installed
-RUN { \
-		echo '#!/bin/sh'; \
-		echo 'set -e'; \
-		echo; \
-		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
-	} > /usr/local/bin/docker-java-home \
-	&& chmod +x /usr/local/bin/docker-java-home
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
-ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
 
-ENV JAVA_VERSION 8u181
-ENV JAVA_ALPINE_VERSION 8.181.13-r0
-
-RUN set -x \
-	&& apk add --no-cache \
-		openjdk8="$JAVA_ALPINE_VERSION" \
-	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
+ENV JAVA_HOME /usr/lib/jvm/
+ENV PATH $PATH:/usr/lib/jvm/bin
 
 ############ GOOGLE CLOUD SDK #############################
 
@@ -58,30 +44,28 @@ RUN set -x\
  && apk --no-cache add\
   bash\
   openssh-client\
-  php5-cgi\
-  php5-cli\
-  php5-mysql\
   git\
   openssh\
   #&& echo "http://nl.alpinelinux.org/alpine/v3.6/main" > /etc/apk/repositories\
   #&& apk update\
   #&& apk --no-cache add --virtual .build-deps\
-  py2-openssl\
-  python2\
   postgresql-libs\
   py-pip\
   gcc\
-  python-dev\
+  python3\
+  python3-dev\
   musl-dev\
   postgresql-dev\
   make\
   curl\
-  && pip install azure-cli \
- && update-ca-certificates\  
- && wget https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip\
- && unzip google-cloud-sdk.zip\
- && rm google-cloud-sdk.zip\
- && google-cloud-sdk/install.sh\
+  && update-ca-certificates\  
+  && wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.17%2B8/OpenJDK11U-jdk_x64_alpine-linux_hotspot_11.0.17_8.tar.gz\
+  && tar zxvf OpenJDK11U-jdk_x64_alpine-linux_hotspot_11.0.17_8.tar.gz\
+  && mv jdk-11.0.17+8/  /usr/lib/jvm/\
+  && wget https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip\
+  && unzip google-cloud-sdk.zip\ 
+  && rm google-cloud-sdk.zip\
+  && google-cloud-sdk/install.sh\
   --usage-reporting=true\
   --path-update=true\
   --bash-completion=true\
@@ -96,7 +80,7 @@ RUN set -x\
    bq\
    cloud-datastore-emulator\
    docker-credential-gcr\
-   gcd-emulator\
+   cloud-datastore-emulator\
    gsutil\
    kubectl\
    pubsub-emulator\

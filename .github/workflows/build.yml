@@ -27,4 +27,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/alpine-gcloud-sdk:3.18.4
+        tags: ${{ secrets.DOCKER_USERNAME }}/alpine-gcloud-sdk:${{  github.ref_name }}

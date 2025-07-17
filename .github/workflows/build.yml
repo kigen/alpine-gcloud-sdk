@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
 
     steps:
     - name: Checkout repository
@@ -27,3 +30,19 @@ jobs:
         context: .
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/alpine-gcloud-sdk:${{  github.ref_name }}
+        load: true
+
+    # Security vulnerability scanning with Trivy
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ secrets.DOCKER_USERNAME }}/alpine-gcloud-sdk:${{  github.ref_name }}
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+        exit-code: '0'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
